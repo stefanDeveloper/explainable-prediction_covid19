@@ -37,7 +37,7 @@ TRAIN:
   PATIENCE: 7
   IMB_STRATEGY: 'class_weight'                            # One of {'class_weight', 'random_oversample'}
   METRIC_PREFERENCE: ['auc', 'recall', 'precision', 'loss']
-  NUM_RUNS: 10
+  NUM_RUNS: 200
   NUM_GPUS: 1
 
 NN:
