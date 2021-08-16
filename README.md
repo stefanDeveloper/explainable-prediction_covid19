@@ -27,3 +27,6 @@ git clone https://github.com/aildnont/covid-cxr.git covid-cxr
 # Remove git folder and docs
 rm -rf covid-cxr/.git covid-cxr/.github covid-cxr/docs
 ```
+
+## Run in Colab
+
