@@ -26,7 +26,7 @@ def build_dataset(cfg):
     mila_df = pd.read_csv(mila_data_path + 'metadata.csv')
     mila_df['filename'] = mila_data_path.split('/')[-2] + '/images/' + mila_df['filename'].astype(str)
     mila_views_cxrs_df = (mila_df['view'].str.contains('|'.join(cfg['DATA']['VIEWS'])))    # Select desired X-ray views
-    mila_covid_pts_df = (mila_df['finding'] == 'COVID-19')
+    mila_covid_pts_df = (mila_df['finding'] == 'Pneumonia/Viral/COVID-19') # Label prone to change
     mila_covid_views_df = mila_df[mila_covid_pts_df & mila_views_cxrs_df]  # Images for patients diagnosed with COVID-19
 
     # Assemble filenames comprising Figure 1 dataset
