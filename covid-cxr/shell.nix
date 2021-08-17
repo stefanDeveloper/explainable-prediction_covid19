@@ -19,8 +19,8 @@ in pkgs.mkShell rec {
 
     # Those are dependencies that we would like to use from nixpkgs, which will
     # add them to PYTHONPATH and thus make them accessible from within the venv.
-    pythonPackages.numpy
-    pythonPackages.requests
+    # pythonPackages.numpy
+    # pythonPackages.requests
 
     # In this particular example, in order to compile any binary extensions they may
     # require, the python modules listed in the hypothetical requirements.txt need
@@ -52,7 +52,7 @@ in pkgs.mkShell rec {
     # Under some circumstances it might be necessary to add your virtual
     # environment to PYTHONPATH, which you can do here too;
     # PYTHONPATH=$PWD/${venvDir}/${pythonPackages.python.sitePackages}/:$PYTHONPATH
-
+    
     source "${venvDir}/bin/activate"
 
     # Updating pip
