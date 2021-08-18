@@ -410,9 +410,7 @@ dictionary through which the developer can easily access its members.
 For user convenience, the config file is organized into major steps in
 our model development pipeline. Many fields need not be modified by the
 typical user, but others may be modified to suit the user's specific
-goals. A summary of the major configurable elements in this file is
-
-below.
+goals. A summary of the major configurable elements in this file is below.
 ```yml
 PATHS:
   RAW_DATA: # Path to parent folder containing all downloaded datasets (i.e. _MILA_DATA_, _FIGURE1_DATA_, _RSNA_DATA_)
