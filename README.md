@@ -6,11 +6,11 @@
 
 - [Getting Started](#getting-started)
 - [Run in Colab](#run-in-colab)
-- [Notes of this Project](#notes-of-this-project)
+- [Notes on this Project](#notes-on-this-project)
 
 ## Getting Started
 
-Run COVID-CXR with Python<=3.7:
+Run [COVID-CXR](./covid-cxr) with Python<=3.7:
 
 > Be careful: If you run it Python higher than 3.7, you might run into problems with `opencv` or `tensorflow_gpu`. If you want to use a higher version, you are on your own.
 

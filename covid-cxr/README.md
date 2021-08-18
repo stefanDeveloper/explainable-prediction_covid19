@@ -1,17 +1,16 @@
 # COVID-19 Chest X-Ray Model
 
-The goals of this project are threefold: (1) to explore development of a machine learning
-algorithm to distinguish chest X-rays of individuals with respiratory
-illness testing positive for COVID-19 from other X-rays, (2) to
-promote discovery of patterns in such X-rays via machine learning
-interpretability algorithms, and (3) to build more robust and extensible machine learning infrastructure trained on a variety of data types, to aid in the global response to COVID-19. 
+The goals of this project are threefold: 
 
-We are calling on machine learning practitioners and healthcare
-professionals who can contribute their expertise to this effort. If you
-are interested in getting involved in this project by lending your
-expertise, or sharing data through data-sharing agreements, please reach out to us ([contact info](#contact) is at the bottom
-of this page); otherwise, feel free to experiment with the code base in
-this repo. The initial model was built by Blake VanBerlo of the Municipal Artificial Intelligence Applications Lab at the City of London, Canada.
+1. to explore development of a machine learning
+algorithm to distinguish chest X-rays of individuals with respiratory
+illness testing positive for COVID-19 from other X-rays, 
+
+2. to
+promote discovery of patterns in such X-rays via machine learning
+interpretability algorithms, and 
+
+3. to build more robust and extensible machine learning infrastructure trained on a variety of data types, to aid in the global response to COVID-19. 
 
 A model has been trained on a dataset composed of X-rays
 labeled positive for COVID-19 infection, normal X-rays, and X-rays
@@ -25,9 +24,8 @@ overstated, as any insights derived from this project may be of benefit
 to healthcare practitioners and researchers as the COVID-19 pandemic
 continues to evolve.
 
-
-
 ## Why X-rays?
+
 There have been promising efforts to apply machine learning to aid in
 the diagnosis of COVID-19 based on
 [CT scans](https://pubs.rsna.org/doi/10.1148/radiol.2020200905). Despite
@@ -37,7 +35,18 @@ X-rays are inexpensive and quick to perform; therefore, they are more
 accessible to healthcare providers working in smaller and/or remote
 regions. Any insights that may be derived as a result of explainability
 algorithms applied to a successful model will be invaluable to the
-global effort of identifying and treating cases of COVID-19. This model is a prototype system and not for medical use and does not offer a diagnosis. 
+global effort of identifying and treating cases of COVID-19. This model is a prototype system and not for medical use and does not offer a diagnosis.
+
+## Table of Contents
+
+- [Getting Started](#getting-started)
+- [Train a model and visualize results](#train-a-model-and-visualize-results)
+- [Binary vs. Multi-class Models](#binary-vs-multiclass-models)
+- [Explanations](#explanations)
+- [Train multiple models and save the best one](#train-multiple-models-and-save-the-best-one)
+- [Random Hyperparameter Search](#random-hyperparameter-search)
+- [Batch predictions and explanations](#batch-predictions-and-explanations)
+- [Project Config](#project-config)
 
 ## Getting Started
 1. Clone this repository (for help see this
@@ -46,46 +55,75 @@ global effort of identifying and treating cases of COVID-19. This model is a pro
    [requirements.txt](requirements.txt)). To do this, open a terminal in
    the root directory of the project and run the following:
    ```
-   $ pip install -r requirements.txt
+   python3 -m venv .venv
+   source .venv/bin/activate
+   pip install -r requirements.txt
    ```
 3. Create a new folder to contain all of your raw data. Set the _RAW_DATA_
    field in the _PATHS_ section of [config.yml](config.yml) to the
    address of this new folder.
+   ```sh
+   mkdir data/covid-chestxray-dataset
+   mkdir data/Figure1-COVID-chestxray-dataset
+   mkdir data/rsna
+   ```
+   Or just create the folders while fetching the repositories
 4. Clone the
    [covid-chestxray-dataset](https://github.com/ieee8023/covid-chestxray-dataset)
    repository inside of your _RAW_DATA_ folder. Set the _MILA_DATA_
    field in the _PATHS_ section of [config.yml](config.yml) to the
    address of the root directory of the cloned repository (for help see
    [Project Config](#project-config)).
+   ```sh
+   git clone https://github.com/ieee8023/covid-chestxray-dataset.git data/covid-chestxray-dataset
+   ```
 5. Clone the
    [Figure1-COVID-chestxray-dataset](https://github.com/agchung/Figure1-COVID-chestxray-dataset)
    repository inside of your _RAW_DATA_ folder. Set the _FIGURE1_DATA_
    field in the _PATHS_ section of [config.yml](config.yml) to the
    address of the root directory of the cloned repository.
+   ```sh
+   git clone https://github.com/agchung/Figure1-COVID-chestxray-dataset data/Figure1-COVID-chestxray-dataset
+   ```
 6. Download and unzip the
    [RSNA Pneumonia Detection Challenge](https://www.kaggle.com/c/rsna-pneumonia-detection-challenge)
    dataset from Kaggle somewhere on your local machine. Set the
    _RSNA_DATA_ field in the _PATHS_ section of
    [config.yml](config.yml) to the address of the folder containing the
    dataset.
+   ```sh
+   kaggle competitions download -c rsna-pneumonia-detection-challenge -p data/rsna
+   unzip data/rsna/rsna-pneumonia-detection-challenge.zip -d data/rsna
+   ```
 7. Execute [_preprocess.py_](src/data/preprocess.py) to create Pandas
    DataFrames of filenames and labels. Preprocessed DataFrames and
    corresponding images of the dataset will be saved within
    _data/preprocessed/_.
+   ```sh
+   python -m src.data.preprocess
+   ```
 8. Execute [_train.py_](src/train.py) to train the neural network model.
    The trained model weights will be saved within _results/models/_, and
    its filename will resemble the following structure:
    modelyyyymmdd-hhmmss.h5, where yyyymmdd-hhmmss is the current time.
    The [TensorBoard](https://www.tensorflow.org/tensorboard) log files
    will be saved within _results/logs/training/_.
+   ```sh
+   python -m src.train
+   ```
 9. In [config.yml](config.yml), set _MODEL_TO_LOAD_ within _PATHS_ to
    the path of the model weights file that was generated in step 6 (for
    help see [Project Config](#project-config)). Execute
    [_lime_explain.py_](src/interpretability/lime_explain.py) to generate
    interpretable explanations for the model's predictions on the test
    set. See more details in the [LIME Section](#lime).
+   ```sh
+   python -m src.interpretability.gradcam
+   python -m src.interpretability.lime_explain
+   ```
 
 ## Train a model and visualize results
+
 1. Once you have the appropriate datasets downloaded, execute
    [_preprocess.py_](src/data/preprocess.py). See
    [Getting Started](#getting-started) for help obtaining and organizing
@@ -103,24 +141,21 @@ global effort of identifying and treating cases of COVID-19. This model is a pro
    time in the same format. These logs contain information about the
    experiment, such as metrics throughout the training process on the
    training and validation sets, and performance on the test set. The
-   logs can be visualized by running
-   [TensorBoard](https://www.tensorflow.org/tensorboard) locally. See
+   logs can be visualized by running locally. See
    below for an example of a plot from a TensorBoard log file depicting
    loss on the training and validation sets versus epoch. Plots
    depicting the change in performance metrics throughout the training
    process (such as the example below) are available in the _SCALARS_
-   tab of TensorBoard.  
-   ![alt text](documents/readme_images/tensorboard_loss.png "Loss vs
-   Epoch")  
-   You can also visualize the trained model's performance on the test
+   tab of TensorBoard. You can also visualize the trained model's performance on the test
    set. See below for an example of the ROC Curve and Confusion Matrix
    based on test set predictions. In our implementation, these plots are
-   available in the _IMAGES_ tab of TensorBoard.  
-   ![alt text](documents/readme_images/roc_example.PNG "ROC Curve")
-   ![alt text](documents/readme_images/cm_example.PNG "Confusion
-   Matrix")
+   available in the _IMAGES_ tab of TensorBoard.
+   ```sh
+   tensorboard --logdir ./results/logs/training/20210818-211416/
+   ```
 
-## Binary vs. Multi-class Models
+## Binary vs Multiclass Models
+
 The documentation in this README assumes the user is training a binary
 classifier, which is set by default in [config.yml](config.yml). The
 user has the option of training a model to perform binary prediction on
@@ -338,6 +373,7 @@ blocks_, and _optimizer_.
    locally and clicking on the _HPARAM_ tab.
 
 ## Batch predictions and explanations
+
 Once a trained model is produced, the user may wish to obtain
 predictions and explanations for a list of images. The steps below
 detail how to run prediction for all images in a specified folder, given
@@ -363,49 +399,8 @@ a trained model and serialized
    the file name of the corresponding explanation. The images depicting
    LIME explanations will be saved in the same folder.
 
-## Project Structure
-The project looks similar to the directory structure below. Disregard
-any _.gitkeep_ files, as their only purpose is to force Git to track
-empty directories. Disregard any _.\__init\__.py_ files, as they are
-empty files that enable Python to recognize certain directories as
-packages.
-
-```
-├── azure                         <- folder containing Azure ML pipelines
-├── data
-│   ├── interpretability          <- Interpretability files
-│   └── processed                 <- Products of preprocessing
-|
-├── documents
-|   ├── generated_images          <- Visualizations of model performance, experiments
-|   └── readme_images             <- Image assets for README.md
-├── results
-│   ├── logs                      <- TensorBoard logs
-│   └── models                    <- Trained model weights
-|
-├── src
-│   ├── custom                    <- Custom TensorFlow components
-|   |   └── metrics.py            <- Definition of custom TensorFlow metrics
-│   ├── data                      <- Data processing
-|   |   └── preprocess.py         <- Main preprocessing script
-│   ├── interpretability          <- Model interpretability scripts
-|   |   ├── gradcam.py            <- Script for generating Grad-CAM explanations
-|   |   └── lime_explain.py       <- Script for generating LIME explanations
-│   ├── models                    <- TensorFlow model definitions
-|   |   └── models.py             <- Script containing model definition
-|   ├── visualization             <- Visualization scripts
-|   |   └── visualize.py          <- Script for visualizing model performance metrics
-|   ├── predict.py                <- Script for running batch predictions
-|   └── train.py                  <- Script for training model on preprocessed data
-|
-├── .gitignore                    <- Files to be be ignored by git.
-├── config.yml                    <- Values of several constants used throughout project
-├── LICENSE                       <- Project license
-├── README.md                     <- Project description
-└── requirements.txt              <- Lists all dependencies and their respective versions
-```
-
 ## Project Config
+
 Many of the components of this project are ready for use on your X-ray
 datasets. However, this project contains several configurable variables that
 are defined in the project config file: [config.yml](config.yml). When
@@ -416,117 +411,63 @@ For user convenience, the config file is organized into major steps in
 our model development pipeline. Many fields need not be modified by the
 typical user, but others may be modified to suit the user's specific
 goals. A summary of the major configurable elements in this file is
+
 below.
+```yml
+PATHS:
+  RAW_DATA: # Path to parent folder containing all downloaded datasets (i.e. _MILA_DATA_, _FIGURE1_DATA_, _RSNA_DATA_)
+  MILA_DATA: #Path to folder containing [Mila COVID-19 image dataset](https://github.com/ieee8023/covid-chestxray-dataset)
+  FIGURE1_DATA: #Path to folder containing [Figure 1 image dataset](https://github.com/agchung/Figure1-COVID-chestxray-dataset)
+  RSNA_DATA: #Path to folder containing [RSNA Pneumonia Detection Challenge dataset](https://www.kaggle.com/c/rsna-pneumonia-detection-challenge)
+  MODEL_WEIGHTS: #Path at which to save trained model's weights
+  MODEL_TO_LOAD: #Path to the trained model's weights that you would like to load for prediction 
+  BATCH_PRED_IMGS: #Path to folder containing images for batch prediction
+  BATCH_PREDS: #Path to folder for outputting batch predictions and explanations
 
-#### PATHS
-- **RAW_DATA**: Path to parent folder containing all downloaded datasets (i.e. _MILA_DATA_, _FIGURE1_DATA_, _RSNA_DATA_)
-- **MILA_DATA**: Path to folder containing
-  [Mila COVID-19 image dataset](https://github.com/ieee8023/covid-chestxray-dataset)
-- **FIGURE1_DATA**: Path to folder containing
-  [Figure 1 image dataset](https://github.com/agchung/Figure1-COVID-chestxray-dataset)
-- **RSNA_DATA**: Path to folder containing
-  [RSNA Pneumonia Detection Challenge dataset](https://www.kaggle.com/c/rsna-pneumonia-detection-challenge)
-- **MODEL_WEIGHTS**: Path at which to save trained model's weights
-- **MODEL_TO_LOAD**: Path to the trained model's weights that you would
-  like to load for prediction
-- **BATCH_PRED_IMGS**: Path to folder containing images for batch
-  prediction
-- **BATCH_PREDS**: Path to folder for outputting batch predictions and
-  explanations
-#### DATA
-- **IMG_DIM**: Desired target size of image after preprocessing
-- **VIEWS**: List of types of chest X-ray views to include. By default,
-  posteroanterior and anteroposterior views are included.
-- **VAL_SPLIT**: Fraction of the data allocated to the validation set
-- **TEST_SPLIT**: Fraction of the data allocated to the test set
-- **NUM_RSNA_IMGS**: Number of images from the RSNA dataset that you wish
-  to include in your assembled dataset
-- **CLASSES**: This is an ordered list of class names. Must be the same
-  length as the number of classes you wish to distinguish.
-#### TRAIN
-- **CLASS_MODE**: The type of classification to be performed. Should be
-  set before performing preprocessing. Set to either _'binary'_ or
-  _'multiclass'_.
-- **CLASS_MULTIPLIER**: A list of coefficients to multiply the computed
-  class weights by during computation of loss function. Must be the same
-  length as the number of classes.
-- **EXPERIMENT_TYPE**: The type of training experiment you would like to
-  perform if executing [_train.py_](src/train.py). For now, the only
-  choice is _'single_train'_.
-- **BATCH_SIZE**: Mini-batch size during training
-- **EPOCHS**: Number of epochs to train the model for
-- **THRESHOLDS**: A single float or list of floats in range [0, 1]
-  defining the classification threshold. Affects precision and recall
-  metrics.
-- **PATIENCE**: Number of epochs to wait before freezing the model if
-  validation loss does not decrease.
-- **IMB_STRATEGY**: Class imbalancing strategy to employ. In our
-  dataset, the ratio of positive to negative ground truth was very low,
-  prompting the use of these strategies. Set either to _'class_weight'_
-  or _'random_oversample'_.
-- **METRIC_PREFERENCE**: A list of metrics in order of importance (from
-  left to right) to guide selection of the best model during a
-  _'multi_train'_ experiment
-- **NUM_RUNS**: The number of times to train a model in the
-  _'multi_train'_ experiment
-- **NUM_GPUS**: The number of GPUs to distribute training over
+DATA:
+  IMG_DIM: #Desired target size of image after preprocessing
+  VIEWS: #List of types of chest X-ray views to include. By default, posteroanterior and anteroposterior views are included.
+  VAL_SPLIT: #Fraction of the data allocated to the validation set
+  TEST_SPLIT: #Fraction of the data allocated to the test set
+  NUM_RSNA_IMGS: #Number of images from the RSNA dataset that you wish to include in your assembled dataset
+  CLASSES: #This is an ordered list of class names. Must be the same length as the number of classes you wish to distinguish.
 
-#### NN
-- **DCNN_BINARY**: Contains definitions of configurable hyperparameters
-  associated with a custom deep convolutional neural network for binary
-  classification. The values currently in this section were the optimal
-  values for our dataset informed by heuristically selecting
-  hyperparameters.
-  - **KERNEL_SIZE**: Kernel size for convolutional layers
-  - **STRIDES**: Size of strides for convolutional layers
-  - **INIT_FILTERS**: Number of filters for first convolutional layer
-  - **FILTER_EXP_BASE**: Base of exponent that determines number of
-    filters in successive convolutional layers. For layer _i_, _#
-    filters = INIT_FILTERS * (FILTER_EXP_BASE) <sup>i</sup>_
-  - **CONV_BLOCKS**: The number of convolutional blocks. Each block
-    contains a 2D convolutional layer, a batch normalization layer,
-    activation layer, and a maxpool layer.
-  - **NODES_DENSE0**: The number of nodes in the fully connected layer
-    following flattening of parameters
-  - **LR**: Learning rate
-  - **OPTIMIZER**: Optimization algorithm
-  - **DROPOUT**: Dropout rate
-  - **L2_LAMBDA**: L2 regularization parameter
-- **DCNN_MULTICLASS**: Contains definitions of configurable
-  hyperparameters associated with a custom deep convolutional neural
-  network for multi-class classification. The fields are identical to
-  those in the _DCNN_BINARY_ subsection.
-#### LIME
-- **KERNEL_WIDTH**: Affects size of neighbourhood around which LIME
-  samples for a particular example. In our experience, setting this
-  within the continuous range of _[1.5, 2.0]_ is large enough to produce
-  stable explanations, but small enough to avoid producing explanations
-  that approach a global surrogate model.
-- **FEATURE_SELECTION**: The strategy to select features for LIME
-  explanations. Read the LIME creators'
-  [documentation](https://lime-ml.readthedocs.io/en/latest/lime.html)
-  for more information.
-- **NUM_FEATURES**: The number of features to
-  include in a LIME explanation
-- **NUM_SAMPLES**: The number of samples used to fit a linear model when
-  explaining a prediction using LIME **COVID_ONLY**: Set to _'true'_ if
-  you want explanations to be provided for the predicted logit
-  corresponding to the "COVID-19" class, despite the model's prediction.
-  If set to _'false'_, explanations will be provided for the logit
-  corresponding to the predicted class.
-#### HP_SEARCH
-- **METRICS**: List of metrics on validation set to monitor in
-  hyperparameter search. Can be any combination of _{'accuracy', 'loss',
-  'recall', 'precision', 'auc'}_
-- **COMBINATIONS**: Number of random combinations of hyperparameters to
-  try in hyperparameter search
-- **REPEATS**: Number of times to repeat training per combination of
-  hyperparameters
-- **RANGES**: Ranges defining possible values that hyperparameters may
-  take. Be sure to check [_train.py_](src/train.py) to ensure that your
-  ranges are defined correctly as real or discrete intervals (see
-  [Random Hyperparameter Search](#random-hyperparameter-search) for an
-  example).
+TRAIN:
+  CLASS_MODE: #The type of classification to be performed. Should be set before performing preprocessing. Set to either _'binary'_ or _'multiclass'_.
+  CLASS_MULTIPLIER: #A list of coefficients to multiply the computed class weights by during computation of loss function. Must be the same length as the number of classes.
+  EXPERIMENT_TYPE: #The type of training experiment you would like to perform if executing [_train.py_](src/train.py). For now, the only choice is _'single_train'_.
+  BATCH_SIZE: #Mini-batch size during training
+  EPOCHS: #Number of epochs to train the model for
+  THRESHOLDS: #A single float or list of floats in range [0, 1] defining the classification threshold. Affects precision and recall metrics.
+  PATIENCE: #Number of epochs to wait before freezing the model if validation loss does not decrease.
+  IMB_STRATEGY: #Class imbalancing strategy to employ. In our dataset, the ratio of positive to negative ground truth was very low, prompting the use of these strategies. Set either to _'class_weight'_or _'random_oversample'_.
+  METRIC_PREFERENCE: #A list of metrics in order of importance (from left to right) to guide selection of the best model during a _'multi_train'_ experiment
+  NUM_RUNS: #The number of times to train a model in the _'multi_train'_ experiment
+  NUM_GPUS: #The number of GPUs to distribute training over
 
-#### PREDICTION
-- **THRESHOLD**: Classification threshold for prediction
+NN:
+  DCNN_BINARY: #Contains definitions of configurable hyperparameters associated with a custom deep convolutional neural network for binary classification. The values currently in this section were the optimal values for our dataset informed by heuristically selecting hyperparameters.
+    KERNEL_SIZE: #Kernel size for convolutional layers
+    STRIDES: #Size of strides for convolutional layers
+    INIT_FILTERS: #Number of filters for first convolutional layer
+    FILTER_EXP_BASE: #Base of exponent that determines number of filters in successive convolutional layers. For layer _i_, _# filters = INIT_FILTERS * (FILTER_EXP_BASE) <sup>i</sup>_CONV_BLOCKS: #The number of convolutional blocks. Each block contains a 2D convolutional layer, a batch normalization layer, activation layer, and a maxpool layer.
+    NODES_DENSE0: #The number of nodes in the fully connected layer following flattening of parameters
+    LR: #Learning rate
+    OPTIMIZER: #Optimization algorithm
+    DROPOUT: #Dropout rate
+    L2_LAMBDA: #L2 regularization parameter
+  DCNN_MULTICLASS: #Contains definitions of configurable hyperparameters associated with a custom deep convolutional neural network for multi-class classification. The fields are identical to those in the _DCNN_BINARY_ subsection.
+LIME:
+  KERNEL_WIDTH: #Affects size of neighbourhood around which LIME samples for a particular example. In our experience, setting this within the continuous range of _[1.5, 2.0]_ is large enough to produce stable explanations, but small enough to avoid producing explanations that approach a global surrogate model.
+  FEATURE_SELECTION: #The strategy to select features for LIME explanations. Read the LIME creators' [documentation](https://lime-ml.readthedocs.io/en/latest/lime.html) for more information.
+  NUM_FEATURES: #The number of features to include in a LIME explanation
+  NUM_SAMPLES: #The number of samples used to fit a linear model when
+  explaining a prediction using LIME COVID_ONLY: #Set to _'true'_ if you want explanations to be provided for the predicted logit corresponding to the "COVID-19" class, despite the model's prediction. If set to _'false'_, explanations will be provided for the logit corresponding to the predicted class.
+HP_SEARCH:
+  METRICS: #List of metrics on validation set to monitor in hyperparameter search. Can be any combination of _{'accuracy', 'loss','recall', 'precision', 'auc'}_COMBINATIONS: #Number of random combinations of hyperparameters to try in hyperparameter search
+  REPEATS: #Number of times to repeat training per combination of hyperparameters
+  RANGES: #Ranges defining possible values that hyperparameters may take. Be sure to check [_train.py_](src/train.py) to ensure that your ranges are defined correctly as real or discrete intervals (see [Random Hyperparameter Search](#random-hyperparameter-search) for an example).
+
+PREDICTION:
+  THRESHOLD: #Classification threshold for prediction
+```
