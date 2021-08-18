@@ -363,17 +363,6 @@ a trained model and serialized
    the file name of the corresponding explanation. The images depicting
    LIME explanations will be saved in the same folder.
 
-## Azure Machine Learning Pipelines
-We ran several of our training experiments on Azure cloud compute
-instances. To do this, we created Jupyter notebooks to define and run
-experiments in Azure, and Python scripts corresponding to pipeline
-steps. We included these files in the _azure/_ folder, in case they may
-benefit any parties hoping to extend our project. Note that Azure is
-**not** required to run this project - all Python files necessary to get
-started are in the _src/_ folder. If you plan on using the Azure machine
-learning pipelines defined in the _azure/_ folder, be sure to install
-the _azureml-sdk_ and _azureml_widgets_ packages.
-
 ## Project Structure
 The project looks similar to the directory structure below. Disregard
 any _.gitkeep_ files, as their only purpose is to force Git to track
@@ -541,16 +530,3 @@ below.
 
 #### PREDICTION
 - **THRESHOLD**: Classification threshold for prediction
-
-## Contact
-**Matt Ross**  
-Manager, Artificial Intelligence  
-Information Technology Services 
-City Manager’s Office 
-The Corporation of the City of London  
-201 Queens Ave. Suite 300, London, ON. N6A 1J1  
-
-**Blake VanBerlo**  
-Data Scientist  
-City of London Municipal Artificial Intelligence Applications Lab  
-C: blake@vanberloconsulting.com
