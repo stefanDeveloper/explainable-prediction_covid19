@@ -206,13 +206,13 @@ based off LIME explanations. To counter this unwanted behaviour, we have
 taken steps to remove and inpaint textual regions as much as possible.
 See the steps below to apply LIME to explain the model's predictions on
 examples in the test set.
-1. Having previously run `[preprocess.py](src/data/preprocess.py)` and
-   `[train.py](src/train.py)`, ensure that `data/processed/` contains
+1. Having previously run [preprocess.py](src/data/preprocess.py) and
+   [train.py](src/train.py), ensure that `data/processed/` contains
    `Test_Set.csv`.
 2. In [config.yml](config.yml), set `MODEL_TO_LOAD` within `PATHS` to
    the path of the model weights file (`.h5` file) that you wish to use
    for prediction.
-3. Execute `[lime_explain.py](src/interpretability/lime_explain.py)`. To
+3. Execute [lime_explain.py](src/interpretability/lime_explain.py). To
    generate explanations for different images in the test set, modify
    the following call: `explain_xray(lime_dict, i, save_exp=True)`. Set
    `i` to the index of the test set image you would like to explain and
@@ -259,10 +259,9 @@ convolutional layer to produce a heatmap depicting regions of the image
 that were highly important during prediction. The steps to use Grad-CAM
 in this repository are as follows:
 1. Follow steps 1 and 2 in [LIME Explanations](#lime-explanations).
-2. Execute `[gradcam.py](src/interpretability/gradcam.py)`. To generate
+2. Execute [gradcam.py](src/interpretability/gradcam.py). To generate
    explanations for different images in the test set, modify the
-   following call: `apply_gradcam(lime_dict, i, hm_intensity=0.5,
-   save_exp=True)`. Set `i` to the index of the test set image you would
+   following call: `apply_gradcam(lime_dict, i, hm_intensity=0.5, save_exp=True)`. Set `i` to the index of the test set image you would
    like to explain and rerun the script.
 3. Interpret the output of Grad-CAM. Bluer pixels and redder pixels
    correspond to higher and lower values of the gradient at the final
