@@ -11,3 +11,4 @@ pydicom==1.4.2
 imbalanced_learn==0.6.1
 tensorboard==2.0.2
 lime==0.1.1.37
+h5py<3.0.0
