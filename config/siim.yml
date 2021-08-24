@@ -3,7 +3,7 @@ PATHS:
   MILA_DATA: '/home/stefan/Documents/git/explainable-prediction_covid19/covid-cxr/data/covid-chestxray-dataset/'              # Path of Mila dataset https://github.com/ieee8023/covid-chestxray-dataset
   FIGURE1_DATA: '/home/stefan/Documents/git/explainable-prediction_covid19/covid-cxr/data/Figure1-COVID-chestxray-dataset/'   # Path of Figure 1 dataset https://github.com/agchung/Figure1-COVID-chestxray-dataset
   RSNA_DATA: '/home/stefan/Documents/git/explainable-prediction_covid19/covid-cxr/data/rsna/'                                 # Path of RSNA dataset https://www.kaggle.com/c/rsna-pneumonia-detection-challenge
-  SIIM_DATA: 'data/rsna/'
+  SIIM_DATA: 'D:\archive\'
   PROCESSED_DATA: 'data/processed/'
   TRAIN_SET: 'data/processed/train_set.csv'
   VAL_SET: 'data/processed/val_set.csv'
@@ -94,3 +94,11 @@ HP_SEARCH:
 
 PREDICTION:
   THRESHOLD: 0.5
+
+SIIM:
+  MAPPING:
+    Negative for Pneumonia:  'non-COVID-19'
+    Typical Appearance: 'COVID-19'
+    Indeterminate Appearance: 'COVID-19'
+    Atypical Appearance: 'COVID-19'
+  RESOLUTION: 256px
