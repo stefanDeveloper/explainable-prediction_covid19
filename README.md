@@ -19,15 +19,15 @@ python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 ```
-after that follow the instructions in the [Getting Started of COVID-CXR](https://github.com/aildnont/covid-cxr#getting-started). Additionally, we have a [Colab Notebook](https://github.com/stefanDeveloper/explainable-prediction_covid19/blob/main/colab/covid-cxr.ipynb)
+after that follow the instructions in the [Getting Started of COVID-CXR](./covid-cxr/README.md#getting-started). Additionally, we have a [Colab Notebook](./colab/covid-cxr.ipynb)
 
 ## Run in Colab
 
 For training purpose we use Colab Pro. All notebooks to run our code is defined in [colab](./colab). 
 > Be aware that the the original project does not work out of the box. We were not able to verify the [explanations](https://github.com/aildnont/covid-cxr#explanations) such as LIME and Grad-Cam
 
-- Run the initial [COVID-CXR project](./config/covid-cxr.ipynb)
-- Run the fixed [COVID-CXR project](./config/covid-cxr.ipynb)
+- Run the initial [COVID-CXR project](./colab/covid-cxr.ipynb)
+- Run the fixed [COVID-CXR project](./colab/covid-cxr-fix.ipynb)
 
 ## Notes on this project
 
