@@ -11,6 +11,7 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from src.visualization.visualize import visualize_explanation
 from src.predict import predict_instance, predict_and_explain
 from src.data.preprocess import remove_text
+import argparse
 
 
 def setup_lime():
@@ -105,6 +106,13 @@ def explain_xray(lime_dict, idx, save_exp=True):
 
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Creates Grad-CAM explanation')
+    parser.add_argument('-i', '--index', type=str,
+                        help='Index to create Grad-CAM explanation')
+
+    args = parser.parse_args()
+    indices = args.index.split(',')
+
     lime_dict = setup_lime()
-    i = 0                                                       # Select i'th image in test set
-    explain_xray(lime_dict, i, save_exp=True)                   # Generate explanation for image
+    for i in indices:
+        explain_xray(lime_dict, i, save_exp=True)
