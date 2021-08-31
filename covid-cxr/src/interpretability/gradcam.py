@@ -112,5 +112,5 @@ if __name__ == '__main__':
     setup_dict = setup_gradcam()
 
     for i in indices:
-        heatmap = apply_gradcam(setup_dict, i, hm_intensity=0.5, save_hm=True)    # Generate heatmap for image
+        heatmap = apply_gradcam(setup_dict, int(i), hm_intensity=0.5, save_hm=True)    # Generate heatmap for image
 

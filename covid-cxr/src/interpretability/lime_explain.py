@@ -115,4 +115,4 @@ if __name__ == '__main__':
 
     lime_dict = setup_lime()
     for i in indices:
-        explain_xray(lime_dict, i, save_exp=True)
+        explain_xray(lime_dict, int(i), save_exp=True)
