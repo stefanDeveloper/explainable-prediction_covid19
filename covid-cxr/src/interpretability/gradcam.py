@@ -10,6 +10,8 @@ from tensorflow.keras.models import Model
 from src.data.preprocess import remove_text
 from src.predict import predict_instance
 from src.visualization.visualize import visualize_heatmap
+import argparse
+
 
 def setup_gradcam():
     '''
@@ -100,6 +102,15 @@ def apply_gradcam(setup_dict, idx, hm_intensity=0.5, save_hm=True):
     return heatmap
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Creates Grad-CAM explanation')
+    parser.add_argument('-i', '--index', type=str,
+                        help='Index to create Grad-CAM explanation')
+
+    args = parser.parse_args()
+    indices = args.index.split(',')
+
     setup_dict = setup_gradcam()
-    heatmap = apply_gradcam(setup_dict, 10, hm_intensity=0.5, save_hm=True)    # Generate heatmap for image
+
+    for i in indices:
+        heatmap = apply_gradcam(setup_dict, int(i), hm_intensity=0.5, save_hm=True)    # Generate heatmap for image
 
