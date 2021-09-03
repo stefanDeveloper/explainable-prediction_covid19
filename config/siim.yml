@@ -1,13 +1,13 @@
 PATHS:
-  RAW_DATA: '/home/stefan/Documents/git/explainable-prediction_covid19/covid-cxr/data/'                                       # Path containing all 3 raw datasets (Mila, Figure 1, RSNA)
-  MILA_DATA: '/home/stefan/Documents/git/explainable-prediction_covid19/covid-cxr/data/covid-chestxray-dataset/'              # Path of Mila dataset https://github.com/ieee8023/covid-chestxray-dataset
-  FIGURE1_DATA: '/home/stefan/Documents/git/explainable-prediction_covid19/covid-cxr/data/Figure1-COVID-chestxray-dataset/'   # Path of Figure 1 dataset https://github.com/agchung/Figure1-COVID-chestxray-dataset
-  RSNA_DATA: '/home/stefan/Documents/git/explainable-prediction_covid19/covid-cxr/data/rsna/'                                 # Path of RSNA dataset https://www.kaggle.com/c/rsna-pneumonia-detection-challenge
-  SIIM_DATA: 'D:\archive\'
-  PROCESSED_DATA: 'data/processed/'
-  TRAIN_SET: 'data/processed/train_set.csv'
-  VAL_SET: 'data/processed/val_set.csv'
-  TEST_SET: 'data/processed/test_set.csv'
+  RAW_DATA: 'covid-cxr/data/'                                       # Path containing all 3 raw datasets (Mila, Figure 1, RSNA)
+  MILA_DATA: 'covid-cxr/data/covid-chestxray-dataset/'              # Path of Mila dataset https://github.com/ieee8023/covid-chestxray-dataset
+  FIGURE1_DATA: 'covid-cxr/data/Figure1-COVID-chestxray-dataset/'   # Path of Figure 1 dataset https://github.com/agchung/Figure1-COVID-chestxray-dataset
+  RSNA_DATA: 'covid-cxr/data/rsna/'                                 # Path of RSNA dataset https://www.kaggle.com/c/rsna-pneumonia-detection-challenge
+  SIIM_DATA: 'covid-sad/data/archive/'
+  PROCESSED_DATA: 'covid-cxr/data/processed/'
+  TRAIN_SET: 'covid-cxr/data/processed/train_set.csv'
+  VAL_SET: 'covid-cxr/data/processed/val_set.csv'
+  TEST_SET: 'covid-cxr/data/processed/test_set.csv'
   IMAGES: 'documents/generated_images/'
   LOGS: 'results/logs/'
   MODEL_WEIGHTS: 'results/models/'
@@ -101,4 +101,4 @@ SIIM:
     Typical Appearance: 'COVID-19'
     Indeterminate Appearance: 'COVID-19'
     Atypical Appearance: 'COVID-19'
-  RESOLUTION: 256px
+  RESOLUTION: 224px
