@@ -44,3 +44,15 @@ git clone https://github.com/aildnont/covid-cxr.git covid-cxr
 # Remove git folder and docs
 rm -rf covid-cxr/.git covid-cxr/.github covid-cxr/docs
 ```
+## Reference
+
+```bibtex
+@misc{sad2021,
+    title = {Replication of exploration of an interpretable machine learning model},
+    author = {Hector, David and Machmeier, Stefan  and Lepper, Alexander},
+    howpublished = {\url{https://github.com/stefanDeveloper/explainable-prediction_covid19/}}
+    month = sep,
+    year = "2021"
+}
+
+```
