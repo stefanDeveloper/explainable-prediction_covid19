@@ -7,6 +7,8 @@
 - [Getting Started](#getting-started)
 - [Run in Colab](#run-in-colab)
 - [Notes on this Project](#notes-on-this-project)
+- [COVID-CXR](./covid-cxr)
+- [COVID-SAD](./covid-sad)
 
 ## Getting Started
 
@@ -28,6 +30,7 @@ For training purpose we use Colab Pro. All notebooks to run our code is defined 
 
 - Run the initial [COVID-CXR project](./colab/covid-cxr.ipynb)
 - Run the fixed [COVID-CXR project](./colab/covid-cxr-fix.ipynb)
+- Run with all datasets the [COVID-CXR project](./colab/covid-cxr-siim.ipynb)
 
 ## Notes on this project
 
