@@ -5,10 +5,12 @@
 ## Table of Contents
 
 - [Getting Started](#getting-started)
-- [Run in Colab](#run-in-colab)
-- [Notes on this Project](#notes-on-this-project)
 - [COVID-CXR](./covid-cxr)
 - [COVID-SAD](./covid-sad)
+- [Run in Colab](#run-in-colab)
+- [Notes on this Project](#notes-on-this-project)
+- [Reference](#reference)
+
 
 ## Getting Started
 
