@@ -1,6 +1,6 @@
 # COVID-SAD
 
-> COVID-SAD includes all adaption we have for our data
+> COVID-SAD includes all adaption we have for our data. SAD is an acronym of Stefan, Alexander, and David.
 
 ## Getting Started
 
